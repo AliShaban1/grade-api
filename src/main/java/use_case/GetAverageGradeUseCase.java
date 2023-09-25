@@ -3,6 +3,8 @@ import api.GradeDB;
 import entity.Grade;
 import entity.Team;
 
+import java.lang.reflect.Array;
+
 public final class GetAverageGradeUseCase {
     private final GradeDB gradeDB;
 
@@ -11,7 +13,16 @@ public final class GetAverageGradeUseCase {
     }
 
     public float getAverageGrade(String course) {
-        // TODO: Get average grade for all students in your team.
-        return 0.0f;
+        Team t = this.gradeDB.getMyTeam();
+        String[] members = t.getMembers();
+        int n = 0;
+        float sum = 0;
+        for (String member: members) {
+           sum += this.gradeDB.getGrade(member, course).getGrade();
+           n += 1;
+
+
+        }
+        return sum / n;
     }
 }
